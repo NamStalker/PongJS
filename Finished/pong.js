@@ -1,23 +1,38 @@
-// Game Settings
+/**************************** 
+ * Document Constants
+*****************************/
+const canvas = document.getElementById("pong");
+const draw = canvas.getContext("2d");
+
+/**************************** 
+ * Game Settings
+*****************************/
 const fps = 60;
 
-// Game Variables
+/**************************** 
+ * Game Variables
+*****************************/
+// Ball physics
 var xDirection = 1;
 var yDirection = 1;
 var speed = 4;
 
-// Game Objects
+// Score
+var player1score = 0;
+var player2score = 0;
+
+/**************************** 
+ * Game Objects
+*****************************/
 var ball = {
 	x: 390,
 	y: 240,
 	radius: 10
 }
 
-// Document constants
-const canvas = document.getElementById("pong");
-const draw = canvas.getContext("2d");
-
-// Game start
+/**************************** 
+ * Game Start
+*****************************/
 startGame();
 
 function startGame(){
@@ -34,6 +49,7 @@ function gameTick(){
 	wipeScreen();
 	updateBall();
 	drawBall();
+	checkScoreCondition();
 }
 
 // Returns either -1 or 1.
@@ -52,6 +68,13 @@ function wipeScreen(){
 	// Fill the background.
 	draw.fillStyle = "black";
 	draw.fillRect(0, 0, canvas.width, canvas.height);
+
+	// Draw the scores
+	draw.fillStyle = "white";
+	draw.font = "48px serif";
+	draw.textAlign = "center";
+	draw.fillText(player1score, canvas.width/4, 48);
+	draw.fillText(player2score, canvas.width*3/4, 48);
 }
 
 // Draws the ball.
@@ -73,4 +96,28 @@ function updateBall(){
 
 	ball.x += xDirection * speed;
 	ball.y += yDirection * speed;
+}
+
+// Checks for the condition that a paddle lets the ball through.
+function checkScoreCondition(){
+	// used to not duplicate code
+	var resetBall = () => {
+		// back to start position
+		ball.x = canvas.width/2 - ball.radius;
+		ball.y = canvas.height/2 - ball.radius;
+
+		xDirection = getStartDirection();
+		yDirection = getStartDirection();
+	}
+
+	if ((ball.x - ball.radius) <= 0){
+		// reaches leftmost wall, player 2 gets a point
+		player2score++;
+		resetBall();
+	}
+	else if ((ball.x + ball.radius) >= canvas.width) {
+		// reaches rightmost wall, player 1 gets a point
+		player1score++;
+		resetBall();
+	}
 }
