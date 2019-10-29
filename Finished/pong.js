@@ -30,6 +30,19 @@ var ball = {
 	radius: 10
 }
 
+var user = {
+	x: 20,
+	y: 200,
+	width: 10,
+	height: 100
+}
+
+var com = {
+	x: 770,
+	y: 200,
+	width: 10,
+	height: 100
+}
 /**************************** 
  * Game Start
 *****************************/
@@ -49,6 +62,8 @@ function gameTick(){
 	wipeScreen();
 	updateBall();
 	drawBall();
+	drawPaddle(user.x, user.y, user.width, user.height);
+	drawPaddle(com.x, com.y, com.width, com.height);
 	checkScoreCondition();
 }
 
@@ -77,14 +92,23 @@ function wipeScreen(){
 	draw.fillText(player2score, canvas.width*3/4, 48);
 }
 
+// Draws the paddles
+function drawPaddle(x, y, width, height)
+{
+	draw.fillstyle = "white";
+	draw.fillRect(x, y, width, height);
+}
+
 // Draws the ball.
-function drawBall(x, y){
+function drawBall()
+{
 	draw.fillStyle = "white";
 	draw.beginPath();
 	draw.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2, false);
 	draw.closePath();
 	draw.fill();
 }
+
 
 // Updates the ball position
 function updateBall(){
