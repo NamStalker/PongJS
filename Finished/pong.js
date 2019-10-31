@@ -46,6 +46,9 @@ var com = {
 /**************************** 
  * Game Start
 *****************************/
+
+canvas.addEventListener("mousemove",movePaddle);
+
 startGame();
 
 function startGame(){
@@ -109,6 +112,10 @@ function drawBall()
 	draw.fill();
 }
 
+function movePaddle(evt){
+	var rect = canvas.getBoundingClientRect();
+	user.y = event.clientY - rect.top - user.height/2; 
+}
 
 // Updates the ball position
 function updateBall(){
