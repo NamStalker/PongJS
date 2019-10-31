@@ -67,6 +67,10 @@ function gameTick(){
 	drawBall();
 	drawPaddle(user.x, user.y, user.width, user.height);
 	drawPaddle(com.x, com.y, com.width, com.height);
+	var computerLevel = 0.1;
+	com.y += (ball.y -(com.y + com.height/2)) * computerLevel;
+	
+	
 	checkScoreCondition();
 }
 
@@ -112,10 +116,13 @@ function drawBall()
 	draw.fill();
 }
 
+// moves paddles 
 function movePaddle(evt){
 	var rect = canvas.getBoundingClientRect();
 	user.y = event.clientY - rect.top - user.height/2; 
 }
+
+
 
 // Updates the ball position
 function updateBall(){
