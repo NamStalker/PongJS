@@ -132,8 +132,30 @@ function updateBall(){
 	if ((ball.y+ball.radius) >= canvas.height)
 		yDirection *= -1;
 
+	// check for paddle collision.
+	let player = (ball.x < canvas.width/2) ? user : com;
+
+	if (collision(ball, player)){
+		ball.xdirection *= -1;
+	}
+
 	ball.x += xDirection * speed;
 	ball.y += yDirection * speed;
+}
+
+function collision(b,p){
+	b.top = b.y - b.radius;
+	b.bottom = b.y + b.radius;
+	b.left = b.x - b.radius;
+	b.right = b.x - b.radius;
+
+	p.top = p.y;
+	p.bottom = p.y + p.height;
+	p.left = p.x;
+	p.right - p.x + p.width;
+
+	return b.right > p.left && b.bottom > p.top && b.left < p.right && b.top < p.bottom;
+	
 }
 
 // Checks for the condition that a paddle lets the ball through.
